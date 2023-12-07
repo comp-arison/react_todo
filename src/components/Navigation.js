@@ -14,7 +14,7 @@ export default function Navigation() {
             <Nav>
                 {currentUser &&
                     <>
-                    <Link to='/resources' className='nav-link'>
+                    <Link to='/todos' className='nav-link'>
                         ToDos
                     </Link>
                     <Link to='/categories' className='nav-link'>

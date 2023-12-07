@@ -38,7 +38,7 @@ export default function Categories() {
       <article className="bg-info p-5">
         <h1 className="text-center">Categories Dashboard</h1>
       </article>
-      {currentUser.email === process.env.REACT_APP_ADMIN_EMAIL &&
+      {currentUser.email &&
         <div className="bg-dark p-2 mb-3 text-center">
           {showCreate ?
             <>

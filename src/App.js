@@ -9,6 +9,7 @@ import Login from './components/Auth/Login'
 import ProtectedRoute from './components/ProtectedRoute'
 import Categories from './components/Categories/Categories'
 import Resources from './components/Resources/Resources'
+import Bootstrap from './components/Bootstrap/Bootstrap'
 
 export default function App() {
   return (
@@ -18,8 +19,8 @@ export default function App() {
         <Router>
           <Navigation/>
           <Routes>
-            <Route path='/' element={<ProtectedRoute></ProtectedRoute>}/>
-            <Route path='/resources' element={<ProtectedRoute><Resources/></ProtectedRoute>}/>
+            <Route path='/' element={<ProtectedRoute><Bootstrap/></ProtectedRoute>}/>
+            <Route path='/todos' element={<ProtectedRoute><Resources/></ProtectedRoute>}/>
             <Route path='/categories' element={<ProtectedRoute><Categories/></ProtectedRoute>}/>
             <Route path='/Login' element={<Login/>}/>
             <Route path='*' element={<NotFound/>}/>

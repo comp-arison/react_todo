@@ -24,6 +24,8 @@ export default function Resources() {
   //the below hook tracks whether the Create form is shown/hidden
   const [showCreate, setShowCreate] = useState(false)
 
+  const [showFinished, setShowFinished] = useState(false)
+
   const [filter, setFilter] = useState(0);
 
   const getResources = () => {
@@ -32,6 +34,7 @@ export default function Resources() {
       setResources(response.data)
     })
   }
+  
 
   useEffect(() => {
     getResources()
@@ -42,10 +45,13 @@ export default function Resources() {
       <article className="bg-info p-5">
         <h1 className="text-center">ToDo Dashboard</h1>
       </article>
-      {currentUser.email === process.env.REACT_APP_ADMIN_EMAIL &&
+      {currentUser.email &&
         <div className="bg-dark p-2 mb-3 text-center">
           <button className="btn btn-info" onClick={() => setShowCreate(!showCreate)}>
             {!showCreate ? 'Create New ToDo' : 'Close Form'}
+          </button>
+          <button className="btn btn-info" onClick={() => setShowFinished(!showFinished)}>
+            {showFinished ? 'Hide Finished Tasks' : 'Show Finished Tasks'}
           </button>
           <div className="createContainer">
             {showCreate &&
@@ -56,11 +62,12 @@ export default function Resources() {
       }
       <FilterCat setFilter={setFilter}/>
       <Container>
+        <h1 style={{fontWeight: "bold", color: "#ffffff"}}>Unfinished Tasks</h1>
         <article className="resourceGallery row justify-content-center">
-          {filter === 0 ? resources.map(r =>
+          {filter === 0 ? resources.filter(r => r.done === false).map(r =>
             <SingleResource key={r.responseId} resource={r} getResources={getResources}/>
           ) :
-          resources.filter(r => r.categoryId === filter).map(r =>
+          resources.filter(r => r.categoryId === filter).filter(r => r.done === false).map(r =>
             <SingleResource key={r.responseId} resource={r} getResources={getResources}/>
           )}
           {filter !== 0 && resources.filter(r => r.categoryId === filter).length === 0 &&
@@ -70,6 +77,24 @@ export default function Resources() {
           }
         </article>
       </Container>
+      {showFinished &&
+        <Container>
+          <h1 style={{fontWeight: "bold", color: "#ffffff"}}>Finished Tasks</h1>
+          <article className="resourceGallery row justify-content-center">
+            {filter === 0 ? resources.filter(r => r.done === true).map(r =>
+              <SingleResource key={r.responseId} resource={r} getResources={getResources}/>
+            ) :
+            resources.filter(r => r.categoryId === filter).filter(r => r.done === true).map(r =>
+              <SingleResource key={r.responseId} resource={r} getResources={getResources}/>
+            )}
+            {filter !== 0 && resources.filter(r => r.categoryId === filter).length === 0 &&
+              <h2 className='alert alert-warning text-dark'>
+                There are no results for this category.
+              </h2>
+            }
+          </article>
+        </Container>
+      }
     </section>
   )
 }

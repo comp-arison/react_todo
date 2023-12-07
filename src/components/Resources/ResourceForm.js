@@ -22,12 +22,12 @@ export default function ResourceForm(props) {
       })
     } else {
       const catToEdit = {
-        toDoId: values.toDoId,
+        toDoId: props.resource.toDoId,
         name: values.name,
         done: values.done,
         categoryId: values.categoryId
       }
-      axios.put(`https://localhost:7017/api/ToDos/${values.toDoId}`, catToEdit).then(() => {
+      axios.put(`https://localhost:7017/api/ToDos/${props.resource.toDoId}`, catToEdit).then(() => {
         props.setShowEdit(false)
         props.getResources()
       })
